@@ -105,7 +105,10 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT', default='5432'),
-        'POOL_MODE': os.environ.get('DB_POOL_MODE', default='session'),
+        'OPTIONS': {
+            'sslmode': 'require',
+            'options': f"-c pool_mode={os.environ.get('DB_POOL_MODE', 'session')}"
+        },
     }
 }
 
