@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-&39%b*c%cb@n2z1-j39^-%l^3s8ute@8wdmu&5!-80^969$ceq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://job-board-kbjz.onrender.com']
 
 
 # Application definition
