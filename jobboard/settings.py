@@ -91,6 +91,9 @@ WSGI_APPLICATION = 'jobboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+print("db_name", os.environ.get('DB_NAME'))
+print("db_host", os.environ.get('DB_HOST'))
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
