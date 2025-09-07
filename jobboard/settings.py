@@ -93,6 +93,9 @@ WSGI_APPLICATION = 'jobboard.wsgi.application'
 
 print("db_name", os.environ.get('DB_NAME'))
 print("db_host", os.environ.get('DB_HOST'))
+print("db_user", os.environ.get('DB_USER'))
+print("db_pass", os.environ.get('DB_PASSWORD'))
+print("db_port", os.environ.get('DB_PORT'))
 
 DATABASES = {
     'default': {
