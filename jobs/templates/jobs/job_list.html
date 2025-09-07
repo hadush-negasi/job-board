@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Browse Jobs{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4 text-center">Available Jobs</h2>
+<div class="row">
+    {% for job in jobs %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm rounded-4 h-100">
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ job.title }}</h5>
+                <p class="card-text text-muted">{{ job.company }} · {{ job.location }}</p>
+                <p class="card-text">{{ job.description|truncatewords:20 }}</p>
+                <a href="{% url 'job_detail' job.id %}" class="btn btn-primary-gradient btn-sm">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No jobs available right now. Check back later!</p>
+    {% endfor %}
+</div>
+{% endblock %}

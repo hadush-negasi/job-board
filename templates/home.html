@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="row vh-100 align-items-center">
+    <!-- Hero Text Column -->
+    <div class="col-md-6 text-center text-md-start">
+        <h1 class="display-4 fw-bold mb-3">Find Your Dream Job</h1>
+        <p class="lead mb-4">Connect with top employers or find the perfect candidate easily.</p>
+        {% if user.is_authenticated %}
+            <a href="#" class="btn btn-primary-gradient btn-lg me-2">Browse Jobs</a>
+        {% else %}
+            <a href="{% url 'select_role' %}" class="btn btn-primary-gradient btn-lg me-2">Get Started</a>
+            <a href="/users/login/" class="btn btn-secondary-gradient btn-lg">Login</a>
+        {% endif %}
+    </div>
+ 
+    <!-- Hero Illustration Column -->
+    <div class="col-md-6 d-none d-md-block text-center">
+        <img src="{% static 'img/undraw_job-hunt.svg'%}" class="img-fluid" alt="Job Board Illustration">
+    </div>
+</div>
+{% endblock %}

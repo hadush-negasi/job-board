@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="vh-100">
+    <h2 class="fw-bold mb-4">Available Jobs</h2>
+    {% include "jobs/_job_list.html" with jobs=jobs truncate=False show_applied=True applied_job_ids=applied_job_ids %}
+</div>
+{% endblock %}

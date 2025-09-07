@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Withdraw Application{% endblock %}
+
+{% block content %}
+<div class="row vh-100 justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg rounded-4 p-5 bg-white text-center">
+            <h2 class="fw-bold mb-4">Withdraw Application</h2>
+            <p>
+                Are you sure you want to withdraw your application for  
+                <strong>{{ application.job.title }}</strong> at  
+                <strong>{{ application.job.company }}</strong>?
+            </p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-lg">Yes, Withdraw</button>
+                <a href="{% url 'my_applications' %}" class="btn btn-secondary-gradient btn-lg">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

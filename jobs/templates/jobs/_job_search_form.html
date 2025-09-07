@@ -1,0 +1,25 @@
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <input type="text" name="q" value="{{ query|default:'' }}" class="form-control input-pill"
+               placeholder="Search by title, company, or keyword...">
+    </div>
+    <div class="col-md-3">
+        <select name="job_type" class="form-select input-pill">
+            <option value="all" {% if job_type == "all" %}selected{% endif %}>All Types</option>
+            <option value="Full-time" {% if job_type == "Full-time" %}selected{% endif %}>Full-time</option>
+            <option value="Part-time" {% if job_type == "Part-time" %}selected{% endif %}>Part-time</option>
+            <option value="Internship" {% if job_type == "Internship" %}selected{% endif %}>Internship</option>
+            <option value="Contract" {% if job_type == "Contract" %}selected{% endif %}>Contract</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="location" value="{{ location|default:'' }}" class="form-control input-pill"
+               placeholder="Filter by location...">
+    </div>
+    <div class="col-md-2 d-flex">
+        <button type="submit" class="btn btn-primary-gradient me-2">Filter</button>
+        {% if query or job_type != "all" or location %}
+            <a href="{% url 'search_jobs' %}" class="btn btn-secondary-gradient">Clear</a>
+        {% endif %}
+    </div>
+</form>

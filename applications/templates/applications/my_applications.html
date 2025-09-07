@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4 vh-100">
+    <h2 class="mb-4">My Applications</h2>
+    <div class="row g-4">
+        {% for application in applications %}
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 rounded-4 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ application.job.title }}</h5>
+                        <p class="card-text mb-1"><strong>Company:</strong> {{ application.job.company }}</p>
+                        <p class="card-text mb-1"><strong>Applied on:</strong> {{ application.applied_at|date:"F j, Y" }}</p>
+                        <p class="card-text">
+                            <strong>Status:</strong>
+                            <span class="badge 
+                                {% if application.status == 'applied' %} bg-secondary
+                                {% elif application.status == 'shortlisted' %} bg-info
+                                {% elif application.status == 'interviewed' %} bg-warning text-dark
+                                {% elif application.status == 'hired' %} bg-success
+                                {% elif application.status == 'rejected' %} bg-danger
+                                {% elif application.status == 'withdrawn' %} bg-dark
+                                {% endif %}">
+                                {{ application.get_status_display }}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-light d-flex justify-content-between">
+                        <a href="{% url 'job_detail' application.job.id %}" class="btn btn-sm btn-outline-primary">View Job</a>
+                        {% if application.status != "withdrawn" and application.status != "rejected" and application.status != "hired" %}
+                            <a href="{% url 'withdraw_application' application.id %}" class="btn btn-danger btn-sm">
+                                Withdraw
+                            </a>                        
+                        {% endif %} 
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>You haven’t applied to any jobs yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

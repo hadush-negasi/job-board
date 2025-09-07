@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="row vh-100">
+    <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center" style="background: #E8F0F8;">
+        <img src="{% static 'img/undraw_secure-login.svg' %}" class="img-fluid mb-4" alt="Job illustration">
+        <h3 class="fw-bold text-center mb-3">Access top job opportunities instantly</h3>
+    </div>
+
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <div class="p-5 rounded-4 shadow-lg bg-white w-75">
+            <h2 class="mb-4 text-center fw-bold">Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="mb-3">
+                        {{ field.label_tag }}
+                        {{ field|add_class:"form-control input-pill" }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary-gradient w-100 btn-lg">Login</button>
+            </form>
+            <p class="text-center mt-3">
+                Don't have an account? <a href="/users/signup/">Sign Up</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

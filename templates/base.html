@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Job Board{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        body { 
+            background: #F0F4F8; 
+            font-family: 'Inter', sans-serif; 
+            color: #2E3A59;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;  /* Pushes footer to bottom */
+        }
+        .btn-primary-gradient {
+            background: linear-gradient(90deg, #4B6CB7, #182848);
+            color: white;
+            font-weight: 600;
+        }
+        .btn-secondary-gradient {
+            background: linear-gradient(90deg, #00C6A7, #00FFD1);
+            color: white;
+            font-weight: 600;
+        }
+        .input-pill { border-radius: 10px !important; }
+        .social-link i {
+            font-size: 1.5rem;
+            color: white;
+            transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
+        }
+        .social-link:hover i {
+            color: #0d6efd; /* Bootstrap blue */
+            transform: translateY(-3px) scale(1.1);
+            text-shadow: 0 0 10px rgba(13,110,253,0.6);
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm" style="background: #4B6CB7;">
+        <div class="container">
+            <a class="navbar-brand fw-bold me-4" href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'home' %}{% endif %}">
+                JobBoard
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                {% if user.is_authenticated %}
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        {% if user.role == 'employer' %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'job_post' %}">Post Job</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'posted_jobs' %}">View Jobs</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'search_jobs' %}">Search Jobs</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'my_applications' %}">My Applications</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account' %}">Account</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'select_role' %}">Sign Up</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm rounded-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <script>
+          // Auto dismiss alerts after 4 seconds
+          setTimeout(() => {
+            let alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+              let bsAlert = new bootstrap.Alert(alert);
+              bsAlert.close();
+            });
+          }, 4000); // 4000ms = 4s
+        </script>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <!-- About Section -->
+                <div class="col-md-6">
+                    <h5 class="fw-bold">JobBoard</h5>
+                    <p class="small">© 2025 Hadush Negasi. All rights reserved.</p>
+                    <p class="small">Developed by Hadush Negasi</p>
+                    <div class="mt-2">
+                        <a href="https://github.com/hadush-negasi" target="_blank" class="social-link me-3">
+                            <i class="bi bi-github" style="font-size: 1.3rem;"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/hadush-brhane/" target="_blank" class="social-link">
+                            <i class="bi bi-linkedin" style="font-size: 1.3rem;"></i>
+                        </a>
+                    </div> 
+                </div>
+
+                <!-- Links Section -->
+                <div class="col-md-6 text-md-end">
+                    <h6 class="fw-bold">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-white text-decoration-none">Home</a></li>
+                        <li><a href="/jobs/" class="text-white text-decoration-none">Browse Jobs</a></li>
+                        <li><a href="{% url 'select_role' %}" class="text-white text-decoration-none">Sign Up</a></li>
+                        <li><a href="/users/login/" class="text-white text-decoration-none">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <small>Made with ❤️ by Hadush Negasi</small>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

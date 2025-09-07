@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Your Posted Jobs{% endblock %}
+
+{% block content %}
+<div class="vh-100">
+    <h2 class="fw-bold mb-4 text-center">Your Posted Jobs</h2>
+    {% include "jobs/_job_list.html" with jobs=jobs truncate=True show_applied=False %}
+</div>
+{% endblock %}

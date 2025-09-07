@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="row vh-100 justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg rounded-4 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold mb-0">{{ job.title }}</h2>
+                <a href="{{ back_url }}" class="btn btn-primary-gradient">⬅ Back</a>
+            </div>
+
+            <p class="text-muted">{{ job.company }} · {{ job.location }}</p>
+            <p>{{ job.description }}</p>
+            <p><strong>Posted on:</strong> {{ job.created_at|date:"F j, Y" }}</p>
+            <p><strong>Deadline: </strong>{{job.deadline|date:"F j, Y"}}</p>
+            <p><strong>Type:</strong> {{ job.get_job_type_display }}</p>
+            <p><strong>Salary:</strong> {{ job.salary }}</p>
+
+            {% if user.is_authenticated %}
+                {% if user.role == "applicant" %}
+                    <!-- Applicants can apply -->
+                    {% if already_applied %}
+                        <button class="btn btn-success" disabled>Already Applied</button>
+                    {% else %}
+                        <a href="{% url 'apply_job' job.id %}" class="btn btn-primary">Apply Now</a>
+                    {% endif %}
+                {% elif user.role == "employer" and job.posted_by == user %}
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="{% url 'job_edit' job.id %}" class="btn btn-secondary-gradient flex-fill">Edit Job</a>
+                        <a href="{% url 'job_delete' job.id %}" class="btn btn-danger flex-fill">Delete Job</a>
+                    </div>
+                {% endif %}
+
+            {% else %}
+                <!-- Guests must login -->
+                <a href="/users/login/" class="btn btn-secondary-gradient btn-lg mt-3">Login to Apply</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

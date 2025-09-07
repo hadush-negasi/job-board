@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg rounded-4 p-5 bg-white text-center">
+            <h2 class="fw-bold mb-4">Delete Job</h2>
+            <p>Are you sure you want to delete the job <strong>{{ job.title }}</strong> at <strong>{{ job.company }}</strong>?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-lg">Yes, Delete</button>
+                <a href="{% url 'job_detail' job.id %}" class="btn btn-secondary-gradient btn-lg">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

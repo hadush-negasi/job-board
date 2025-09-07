@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-5 text-center">Account Information</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <!-- Info Column -->
+        <div class="col-md-6">
+            <div class="card shadow-sm rounded-4 p-4 mb-4">
+                <h4 class="fw-bold mb-3">Basic Info</h4>
+                <p><strong>Full Name:</strong> {{ user.get_full_name }}</p>
+                <p><strong>Email:</strong> {{ user.username }}</p>
+                <p><strong>Role:</strong> {{ user.role|title }}</p>
+            </div>
+
+            {% if user.role == "employer" %}
+            <div class="card shadow-sm rounded-4 p-4 mb-4">
+                <h4 class="fw-bold mb-3">Employer Profile</h4>
+                <p><strong>Company Name:</strong> {{ user.employer_profile.company_name }}</p>
+                <p><strong>Website:</strong> <a href="{{ user.employer_profile.company_website }}" target="_blank">{{ user.employer_profile.company_website }}</a></p>
+                <p><strong>Phone:</strong> {{ user.employer_profile.phone }}</p>
+                <p><strong>Address:</strong> {{ user.employer_profile.address }}</p>
+            </div>
+            {% elif user.role == "applicant" %}
+            <div class="card shadow-sm rounded-4 p-4 mb-4">
+                <h4 class="fw-bold mb-3">Applicant Profile</h4>
+                <p><strong>Phone:</strong> {{ user.applicant_profile.phone }}</p>
+                <p><strong>Address:</strong> {{ user.applicant_profile.address }}</p>
+                <p><strong>Portfolio:</strong> <a href="{{ user.applicant_profile.portfolio_url }}" target="_blank">{{ user.applicant_profile.portfolio_url }}</a></p>
+                <p><strong>LinkedIn:</strong> <a href="{{ user.applicant_profile.linkedin_url }}" target="_blank">{{ user.applicant_profile.linkedin_url }}</a></p>
+            </div>
+            {% endif %}
+
+            <div class="d-flex gap-2">
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary-gradient flex-fill">Edit Profile</a>
+                <form method="post" action="{% url 'logout' %}" class="flex-fill">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary-gradient w-100">Logout</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Illustration Column -->
+        <div class="col-md-6 d-none d-md-block text-center">
+            <img src="{% static 'img/undraw_profile-details.svg' %}" class="img-fluid" alt="Profile Illustration">
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Choose Your Role{% endblock %}
+
+{% block content %}
+<div class="row align-items-center justify-content-center text-center">
+    <div class="col-md-10">
+        <h1 class="display-5 fw-bold mb-4">Sign Up as</h1>
+        <p class="lead mb-5">Choose whether you want to find talent or find your dream job.</p>
+
+        <div class="d-flex flex-wrap justify-content-center gap-4">
+            <!-- Employer Card -->
+            <a href="{% url 'signup' %}?role=employer" class="text-decoration-none">
+                <div class="card shadow-lg rounded-4 p-4 hover-shadow" style="width: 250px; transition: transform 0.3s;">
+                    <img src="{% static 'img/undraw_job-offers.svg' %}" class="card-img-top mb-3" alt="Employer" style="height: 150px; object-fit: contain;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold text-dark">Employer</h5>
+                        <p class="card-text text-muted">Post jobs and find the perfect candidates quickly.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Applicant Card -->
+            <a href="{% url 'signup' %}?role=applicant" class="text-decoration-none">
+                <div class="card shadow-lg rounded-4 p-4 hover-shadow" style="width: 250px; transition: transform 0.3s;">
+                    <img src="{% static 'img/undraw_job-hunt.svg' %}" class="card-img-top mb-3" alt="Applicant" style="height: 150px; object-fit: contain;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold text-dark">Applicant</h5>
+                        <p class="card-text text-muted">Apply to jobs and land your dream position easily.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.hover-shadow:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15) !important;
+}
+</style>
+{% endblock %}

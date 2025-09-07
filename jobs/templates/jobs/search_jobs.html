@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Search Jobs{% endblock %}
+
+{% block content %}
+<div class="vh-100">
+    <h2 class="fw-bold mb-4 text-center">Search Jobs</h2>
+    
+    {% include "jobs/_job_search_form.html" %}
+    
+    {% include "jobs/_job_list.html" with jobs=jobs truncate=True show_applied=True applied_job_ids=applied_job_ids %}
+</div>
+{% endblock %}

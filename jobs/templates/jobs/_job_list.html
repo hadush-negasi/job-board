@@ -1,0 +1,35 @@
+<div class="row">
+    {% for job in jobs %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm rounded-4 h-100">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ job.title }}</h5>
+                    <p class="card-text text-muted">{{ job.company }} · {{ job.location }}</p>
+
+                    {% if truncate %}
+                        <p class="card-text">{{ job.description|truncatechars:120 }}</p>
+                    {% else %}
+                        <p class="card-text">{{ job.description|truncatewords:20 }}</p>
+                    {% endif %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        {% if user.role == "applicant" and show_applied and job.id in applied_job_ids %}
+                            <span class="badge bg-success">Applied</span>
+                        {% endif %}
+
+                        {% if user.role == "employer" %}
+                            <a href="{% url 'view_applications' job.id %}" class="btn btn-secondary-gradient btn-sm">View Applications</a>
+                        {% endif %}
+
+                        <a href="{% url 'job_detail' job.id %}" class="btn btn-primary-gradient btn-sm">View Job Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        {% if user.role == "applicant" %}
+            <p class="text-center">No jobs available right now.</p>
+        {% else %}
+            <p class="text-center">You haven't posted any jobs yet.</p>
+        {% endif %}
+    {% endfor %}
+</div>

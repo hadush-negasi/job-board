@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Applications for {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="vh-100">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">Applications for {{ job.title }}</h2>
+    <a href="{% url 'posted_jobs' %}" class="btn btn-primary-gradient">
+        ← Back to Posted Jobs
+    </a>
+</div>
+
+{% if applications %}
+    <div class="list-group">
+        {% for application in applications %}
+        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center shadow-sm rounded-3 mb-2 p-3">
+            <div>
+                <h5 class="mb-1">{{ application.applicant.get_full_name }}</h5>
+                <p class="mb-1"><strong>Email:</strong> {{ application.applicant.username }}</p>
+                <p class="mb-1"><strong>Phone:</strong> {{ application.applicant.applicant_profile.phone }}</p>
+                <span class="badge bg-info text-dark">{{ application.get_status_display }}</span>
+            </div>
+            <div>
+                <a href="{% url 'application_detail' application.id %}" class="btn btn-primary btn-sm">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No applications yet.</p>
+{% endif %}
+</div>
+{% endblock %}

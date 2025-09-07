@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Employer Dashboard{% endblock %}
+
+{% block content %}
+<div class="row vh-100 align-items-center">
+    <!-- Hero Text Column -->
+    <div class="col-md-6 text-center text-md-start">
+        <h1 class="display-4 fw-bold mb-3">Welcome, {{ user.first_name }}!</h1>
+        <p class="lead mb-4">Manage your jobs and grow your team from here.</p>
+        <div class="d-flex justify-content-center justify-content-md-start gap-3">
+            <a href="{% url 'job_post' %}" class="btn btn-primary-gradient btn-lg">Post a Job</a>
+            <a href="{% url 'posted_jobs' %}" class="btn btn-secondary-gradient btn-lg">View Posted Jobs</a>
+        </div>
+    </div>
+
+    <!-- Hero Illustration Column -->
+    <div class="col-md-6 d-none d-md-block text-center">
+        <img src="{% static 'img/undraw_working.svg' %}" class="img-fluid" alt="Dashboard Hero">
+    </div>
+</div>
+
+<!-- Optional: Recently Posted Jobs Section -->
+{% if jobs %}
+<div class="mt-5">
+    <h3 class="fw-bold mb-4">Recently Posted Jobs</h3>
+    <div class="row">
+        {% for job in jobs %}
+            <div class="col-md-6 mb-3">
+                <div class="card p-3 shadow rounded-4">
+                    <h5 class="fw-bold">{{ job.title }}</h5>
+                    <p class="text-muted">{{ job.company }} · {{ job.location }}</p>
+                    <p>{{ job.description|truncatewords:20 }}</p>
+                    <a href="{% url 'job_detail' job.id %}" class="btn btn-secondary-gradient btn-sm">View</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
