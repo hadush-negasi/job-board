@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import dj_database_url
 from pathlib import Path
 from decouple import config
 
@@ -91,25 +92,12 @@ WSGI_APPLICATION = 'jobboard.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-print("db_name", os.environ.get('DB_NAME'))
-print("db_host", os.environ.get('DB_HOST'))
-print("db_user", os.environ.get('DB_USER'))
-print("db_pass", os.environ.get('DB_PASSWORD'))
-print("db_port", os.environ.get('DB_PORT'))
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT', default='5432'),
-        'OPTIONS': {
-            'sslmode': 'require',
-            'options': f"-c pool_mode={os.environ.get('DB_POOL_MODE', 'session')}"
-        },
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 
