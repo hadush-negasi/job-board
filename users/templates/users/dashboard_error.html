@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-danger text-center">
+        <h4>Unable to Load Dashboard</h4>
+        <p>We're experiencing technical difficulties. Please try again later.</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary">Retry</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Go Home</a>
+    </div>
+</div>
+{% endblock %}
