@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.urls import reverse
 from .forms import CustomUserCreationForm, EmployerProfileForm, ApplicantProfileForm
@@ -86,6 +87,29 @@ def complete_profile(request, edit=False):
     except Exception:
         messages.error(request, "An unexpected error occurred.")
         return redirect('dashboard')
+    
+def custom_login_view(request):
+    try:
+        # Use Django's built-in LoginView but wrap it in error handling
+        return LoginView.as_view(template_name="users/login.html")(request)
+    except (OperationalError, DatabaseError):
+        messages.error(request, "Login service is temporarily unavailable. Please try again later.")
+        return render(request, "users/login.html")
+    except Exception:
+        messages.error(request, "An unexpected error occurred during login.")
+        return render(request, "users/login.html")
+
+@login_required
+def custom_logout_view(request):
+    try:
+        # Use Django's built-in LogoutView but wrap it in error handling
+        return LogoutView.as_view()(request)
+    except (OperationalError, DatabaseError):
+        messages.error(request, "Logout service is temporarily unavailable.")
+        return redirect('home')
+    except Exception:
+        messages.error(request, "An unexpected error occurred during logout.")
+        return redirect('home')
 
 
 def dashboard(request):
